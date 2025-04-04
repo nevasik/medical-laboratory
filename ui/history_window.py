@@ -1,9 +1,12 @@
 from database import connection, queries
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QTableView, QLineEdit, QComboBox,
-    QPushButton, QMessageBox, QHeaderView
+    QPushButton, QMessageBox, QHeaderView, QLabel
 )
 from ui.models import HistoryModel
+from PyQt6.QtGui import QPixmap, QIcon
+from styles import COMMON_STYLE
+from PyQt6.QtCore import Qt
 
 
 class HistoryWindow(QWidget):
@@ -14,10 +17,16 @@ class HistoryWindow(QWidget):
         self._init_ui()
         self._connect_signals()
 
+        self.setWindowIcon(QIcon('resources/logo.ico'))
+
     def _init_ui(self):
         layout = QVBoxLayout()
 
-        # Filter and sort controls
+        logo_label = QLabel()
+        pixmap = QPixmap('resources/logo.png').scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio)
+        logo_label.setPixmap(pixmap)
+        layout.insertWidget(0, logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
         filter_layout = QHBoxLayout()
         
         self.login_filter = QLineEdit(placeholderText="Фильтр по логину")
@@ -30,19 +39,19 @@ class HistoryWindow(QWidget):
         filter_layout.addWidget(self.apply_btn)
         layout.addLayout(filter_layout)
 
-        # Table view
         self.table = QTableView()
         self.table.horizontalHeader().setSectionResizeMode(
             QHeaderView.ResizeMode.Stretch
         )
         layout.addWidget(self.table)
 
-        # Close button
         self.close_btn = QPushButton("Закрыть")
         layout.addWidget(self.close_btn)
 
         self.setLayout(layout)
         self.load_data()
+
+        self.setStyleSheet(COMMON_STYLE)
 
     def _connect_signals(self):
         self.apply_btn.clicked.connect(self.load_data)

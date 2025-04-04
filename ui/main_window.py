@@ -1,12 +1,12 @@
 from config import Config
 from ui.history_window import HistoryWindow
 from PyQt6.QtCore import QTimer, QDateTime, Qt
-from PyQt6.QtGui import QPixmap, QFont
+from PyQt6.QtGui import QPixmap, QFont, QIcon
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, 
     QLabel, QPushButton, QHBoxLayout, QMessageBox
 )
-
+from styles import COMMON_STYLE, MAIN_EXTRA_STYLE
 
 class MainWindow(QMainWindow):
     def __init__(self, user_data, login_window):
@@ -19,30 +19,37 @@ class MainWindow(QMainWindow):
         self._init_ui()
         self._connect_signals()
 
+        self.setWindowIcon(QIcon('resources/logo.ico'))
+
     def _init_ui(self):
         self.setWindowTitle(f"{self.user_data[0]} - {self.user_data[1] or 'Администратор'}")
         self.setGeometry(100, 100, 800, 600)
 
         self.central_widget = QWidget()
         self.layout = QVBoxLayout()
-        
-        # Фото пользователя
+
+        logo_label = QLabel()
+        pixmap = QPixmap('resources/logo.png').scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio)
+        logo_label.setPixmap(pixmap)
+        self.layout.insertWidget(0, logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
         self.photo_label = QLabel()
         self._update_user_photo()
-        self.layout.addWidget(self.photo_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.layout.addWidget(self.photo_label, alignment=Qt.AlignmentFlag.AlignLeft)
 
-        # Информация о пользователе
         self._setup_user_info()
         
-        # Таймер только для лаборантов
         if self._is_lab_technician():
             self._setup_session_timer()
 
-        # Кнопки действий
         self._setup_action_buttons()
 
         self.central_widget.setLayout(self.layout)
         self.setCentralWidget(self.central_widget)
+
+        self.setStyleSheet(COMMON_STYLE + MAIN_EXTRA_STYLE)
+        self.name_label.setObjectName("user_info")
+        self.role_label.setObjectName("user_info")
 
     def _setup_user_info(self):
         info_font = QFont("Arial", 14)
@@ -58,7 +65,7 @@ class MainWindow(QMainWindow):
         self.timer_label = QLabel(f"Осталось времени: {self.remaining_time} мин")
         self.layout.addWidget(self.timer_label)
         self.timer = QTimer()
-        self.timer.setInterval(60000)  # 1 минута
+        self.timer.setInterval(60000)
 
     def _setup_action_buttons(self):
         button_layout = QHBoxLayout()

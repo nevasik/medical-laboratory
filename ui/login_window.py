@@ -2,13 +2,13 @@ from ui.main_window import MainWindow
 from auth.service import AuthService
 from auth.captcha import CaptchaGenerator
 from config import Config
-from PyQt6.QtCore import QDateTime
-from PyQt6.QtGui import QPixmap, QImage
+from PyQt6.QtCore import QDateTime, Qt
+from PyQt6.QtGui import QPixmap, QImage, QIcon
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QLabel,
     QLineEdit, QPushButton, QCheckBox, QMessageBox
 )
-
+from styles import COMMON_STYLE, LOGIN_EXTRA_STYLE
 
 
 class LoginWindow(QMainWindow):
@@ -24,26 +24,29 @@ class LoginWindow(QMainWindow):
         self._init_ui()
         self._connect_signals()
 
+        self.setWindowIcon(QIcon('resources/logo.ico'))
+
     def _init_ui(self):
         self.central_widget = QWidget()
         self.layout = QVBoxLayout()
 
-        # Поля ввода
+        logo_label = QLabel()
+        pixmap = QPixmap('resources/logo.png').scaled(150, 150, Qt.AspectRatioMode.KeepAspectRatio)
+        logo_label.setPixmap(pixmap)
+        self.layout.insertWidget(0, logo_label, alignment=Qt.AlignmentFlag.AlignCenter)
+
         self.login_input = QLineEdit(placeholderText="Логин")
         self.password_input = QLineEdit(placeholderText="Пароль")
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
 
-        # CAPTCHA элементы
         self.captcha_label = QLabel()
         self.captcha_input = QLineEdit(placeholderText="Введите CAPTCHA")
         self.refresh_btn = QPushButton("Обновить CAPTCHA")
         self.toggle_captcha(False)
 
-        # Чекбокс и кнопка
         self.show_password = QCheckBox("Показать пароль")
         self.login_button = QPushButton("Войти")
 
-        # Добавление виджетов в layout
         widgets = [
             self.login_input, self.password_input,
             self.captcha_label, self.captcha_input, self.refresh_btn,
@@ -54,6 +57,9 @@ class LoginWindow(QMainWindow):
 
         self.central_widget.setLayout(self.layout)
         self.setCentralWidget(self.central_widget)
+
+        self.setStyleSheet(COMMON_STYLE + LOGIN_EXTRA_STYLE)
+        self.captcha_label.setObjectName("captcha_label")
 
     def _connect_signals(self):
         self.show_password.stateChanged.connect(self._toggle_password_visibility)
