@@ -1,27 +1,21 @@
--- create_table.sql
-
-CREATE TABLE analyzers (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    model TEXT NOT NULL,
-    location TEXT
+CREATE TABLE services (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    code INT UNIQUE,
+    name VARCHAR(255),
+    cost DECIMAL(10, 2),
+    result_type VARCHAR(50),
+    analyzers VARCHAR(255)
 );
 
-CREATE TABLE patients (
-    id INTEGER PRIMARY KEY,
-    full_name TEXT NOT NULL,
-    birth_date TEXT,
-    insurance_id TEXT
-);
+CREATE UNIQUE INDEX idx_services_code ON services(code);
 
-CREATE TABLE samples (
-    id INTEGER PRIMARY KEY,
-    patient_id INTEGER,
-    analyzer_id INTEGER,
-    test_type TEXT NOT NULL,
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    patient_id VARCHAR(50),
+    service_code INT,
+    analyzer_name VARCHAR(50),
+    status ENUM('pending', 'in_progress', 'sent', 'completed', 'rejected') DEFAULT 'pending',
     result TEXT,
-    status TEXT DEFAULT 'received',
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
-    FOREIGN KEY (analyzer_id) REFERENCES analyzers(id)
+    progress INT DEFAULT 0,
+    FOREIGN KEY (service_code) REFERENCES services(code)
 );
