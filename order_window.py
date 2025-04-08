@@ -3,7 +3,8 @@ from database.connection import get_connection
 from database.db import get_services, search_patients
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
-    QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QMessageBox, QInputDialog
+    QPushButton, QComboBox, QTableWidget, QTableWidgetItem, QMessageBox, QInputDialog,
+    QListWidget, QListWidgetItem
 )   
 from barcode.writer import ImageWriter
 from reportlab.pdfgen import canvas
@@ -18,6 +19,90 @@ import random
 import json
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from styles import *  # Импортируем все стили
+from dialogs import WarningDialog, SuccessDialog, ErrorDialog  # Импортируем диалоги
+
+
+class ServiceDialog(QDialog):
+    """Диалог для выбора услуги"""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Выбор услуги")
+        self.setGeometry(200, 200, 400, 500)
+        self.setStyleSheet(MAIN_WINDOW_STYLE)
+        self.selected_service = None
+        self._init_ui()
+        
+    def _init_ui(self):
+        layout = QVBoxLayout()
+        
+        # Заголовок
+        title_label = QLabel("Выберите услугу:")
+        title_label.setStyleSheet(LABEL_STYLE)
+        layout.addWidget(title_label)
+        
+        # Список услуг
+        self.services_list = QListWidget()
+        self.services_list.setStyleSheet("""
+            QListWidget {
+                background-color: white;
+                border: 2px solid #76E383;
+                border-radius: 5px;
+                padding: 5px;
+                color: black;
+                font-family: "Comic Sans MS";
+                font-size: 12pt;
+            }
+            QListWidget::item {
+                padding: 8px;
+                border-bottom: 1px solid #76E383;
+            }
+            QListWidget::item:selected {
+                background-color: #497C51;
+                color: white;
+            }
+        """)
+        layout.addWidget(self.services_list)
+        
+        # Кнопки
+        btn_layout = QHBoxLayout()
+        self.select_btn = QPushButton("Выбрать")
+        self.select_btn.setStyleSheet(PRIMARY_BUTTON_STYLE)
+        self.cancel_btn = QPushButton("Отмена")
+        self.cancel_btn.setStyleSheet(BUTTON_STYLE)
+        
+        btn_layout.addWidget(self.select_btn)
+        btn_layout.addWidget(self.cancel_btn)
+        layout.addLayout(btn_layout)
+        
+        self.setLayout(layout)
+        
+        # Заполняем список услуг
+        self._load_services()
+        
+        # Подключаем сигналы
+        self.select_btn.clicked.connect(self._select_service)
+        self.cancel_btn.clicked.connect(self.reject)
+        self.services_list.itemDoubleClicked.connect(self._select_service)
+        
+    def _load_services(self):
+        try:
+            services, _ = get_services()
+            for service in services:
+                item = QListWidgetItem(f"{service[1]} - {service[2]} руб.")
+                item.setData(Qt.ItemDataRole.UserRole, service)
+                self.services_list.addItem(item)
+        except Exception as e:
+            logger.error(f"Error loading services: {e}")
+            QMessageBox.critical(self, "Ошибка", "Не удалось загрузить список услуг")
+            
+    def _select_service(self):
+        current_item = self.services_list.currentItem()
+        if current_item:
+            self.selected_service = current_item.data(Qt.ItemDataRole.UserRole)
+            self.accept()
+        else:
+            QMessageBox.warning(self, "Предупреждение", "Выберите услугу из списка")
 
 
 class OrderWindow(QDialog):
@@ -27,6 +112,9 @@ class OrderWindow(QDialog):
             logger.info("Initializing OrderWindow")
             self.setWindowTitle("Формирование заказа")
             self.setGeometry(100, 100, 800, 600)
+            
+            # Применяем стиль к окну
+            self.setStyleSheet(MAIN_WINDOW_STYLE)
             
             # Инициализируем переменные по умолчанию
             self.order_number = 1
@@ -45,11 +133,8 @@ class OrderWindow(QDialog):
             logger.info("OrderWindow initialized successfully")
         except Exception as e:
             logger.error(f"Error initializing OrderWindow: {e}")
-            # Не вызываем raise, чтобы приложение не завершалось при ошибке инициализации
-            # Вместо этого показываем сообщение об ошибке
             QMessageBox.critical(self, "Ошибка инициализации", 
                                f"Произошла ошибка при инициализации окна: {str(e)}")
-            # Продолжаем инициализацию с минимальными настройками
             super().__init__()
             self.setWindowTitle("Формирование заказа")
             self.setGeometry(100, 100, 800, 600)
@@ -62,34 +147,48 @@ class OrderWindow(QDialog):
             layout = QVBoxLayout()
             
             # Код пробирки
+            code_label = QLabel("Код пробирки:")
+            code_label.setStyleSheet(LABEL_STYLE)
             self.code_input = QLineEdit()
+            self.code_input.setStyleSheet(INPUT_STYLE)
             self._update_tube_code_placeholder()  # Обновляем подсказку
-            layout.addWidget(QLabel("Код пробирки:"))
+            layout.addWidget(code_label)
             layout.addWidget(self.code_input)
             
             # Пациент
+            patient_label = QLabel("Пациент:")
+            patient_label.setStyleSheet(LABEL_STYLE)
             self.patient_search = QLineEdit()
+            self.patient_search.setStyleSheet(INPUT_STYLE)
             self.patient_search.setPlaceholderText("Поиск пациента...")
             self.patient_list = QComboBox()
-            layout.addWidget(QLabel("Пациент:"))
+            self.patient_list.setStyleSheet(COMBOBOX_STYLE)
+            layout.addWidget(patient_label)
             layout.addWidget(self.patient_search)
             layout.addWidget(self.patient_list)
             self.add_patient_btn = QPushButton("Добавить пациента")
+            self.add_patient_btn.setStyleSheet(BUTTON_STYLE)
             layout.addWidget(self.add_patient_btn)
             
             # Услуги
-            layout.addWidget(QLabel("Услуги:"))
+            services_label = QLabel("Услуги:")
+            services_label.setStyleSheet(LABEL_STYLE)
+            layout.addWidget(services_label)
             self.services_table = QTableWidget()
+            self.services_table.setStyleSheet(TABLE_STYLE)
             self.services_table.setColumnCount(2)
             self.services_table.setHorizontalHeaderLabels(["Услуга", "Стоимость"])
             layout.addWidget(self.services_table)
             self.add_service_btn = QPushButton("Добавить услугу")
+            self.add_service_btn.setStyleSheet(BUTTON_STYLE)
             layout.addWidget(self.add_service_btn)
             
             # Кнопки управления
             btn_layout = QHBoxLayout()
             self.generate_btn = QPushButton("Сформировать заказ")
+            self.generate_btn.setStyleSheet(PRIMARY_BUTTON_STYLE)
             self.cancel_btn = QPushButton("Отмена")
+            self.cancel_btn.setStyleSheet(BUTTON_STYLE)
             btn_layout.addWidget(self.generate_btn)
             btn_layout.addWidget(self.cancel_btn)
             layout.addLayout(btn_layout)
@@ -173,7 +272,7 @@ class OrderWindow(QDialog):
                 logger.error("Some UI elements are not initialized")
                 return
                 
-            self.code_input.returnPressed.connect(self._process_code)
+            self.code_input.textChanged.connect(self._process_code)
             self.patient_search.textChanged.connect(self._search_patient)
             self.add_patient_btn.clicked.connect(self._open_patient_dialog)
             self.add_service_btn.clicked.connect(self._add_service)
@@ -182,42 +281,46 @@ class OrderWindow(QDialog):
             logger.debug("Signals connected successfully")
         except Exception as e:
             logger.error(f"Error connecting signals: {e}")
-            # Не вызываем raise, чтобы приложение не завершалось при ошибке подключения сигналов
-            # Вместо этого показываем сообщение об ошибке
             QMessageBox.critical(self, "Ошибка подключения сигналов", 
                                f"Произошла ошибка при подключении сигналов: {str(e)}")
 
     def _process_code(self):
         try:
             code = self.code_input.text().strip()
+            if not code:  # If code is empty, clear tube_code and return
+                self.tube_code = None
+                return
+                
             if code.endswith('\r'):
                 code = code[:-1]
                 
             with get_connection() as conn:
                 if not conn:
                     logger.error("Failed to connect to database")
-                    QMessageBox.warning(self, "Предупреждение", 
-                                      "Не удалось подключиться к базе данных.\nКод будет принят без проверки.")
+                    warning_dialog = WarningDialog("Предупреждение", 
+                        "Не удалось подключиться к базе данных.\nКод будет принят без проверки.")
+                    warning_dialog.exec()
                     self.tube_code = code
-                    self.code_input.setText(code)
                     return
 
                 cursor = conn.cursor()
                 cursor.execute("SELECT order_id FROM orders WHERE tube_code = %s AND is_archived = 0", (code,))
                 if cursor.fetchone():
                     logger.warning(f"Duplicate tube code: {code}")
-                    QMessageBox.warning(self, "Ошибка", "Код пробирки уже существует!")
+                    warning_dialog = WarningDialog("Ошибка", 
+                        f"Код пробирки {code} уже существует!\nПожалуйста, введите другой код.")
+                    warning_dialog.exec()
                     self.code_input.clear()
+                    self.tube_code = None
                     return
                 self.tube_code = code
-                self.code_input.setText(code)
                 logger.debug(f"Processed tube code: {code}")
         except Exception as e:
             logger.error(f"Error processing code: {e}")
-            QMessageBox.warning(self, "Предупреждение", 
-                              "Не удалось проверить код.\nКод будет принят без проверки.")
+            warning_dialog = WarningDialog("Предупреждение", 
+                "Не удалось проверить код.\nКод будет принят без проверки.")
+            warning_dialog.exec()
             self.tube_code = code
-            self.code_input.setText(code)
 
     def _search_patient(self):
         try:
@@ -248,16 +351,29 @@ class OrderWindow(QDialog):
 
     def _add_service(self):
         try:
-            services, _ = get_services()
-            service, ok = QInputDialog.getItem(self, "Услуга", "Выберите услугу:", 
-                                              [s[1] for s in services], 0, False)
-            if ok and service:
-                selected = next(s for s in services if s[1] == service)
+            dialog = ServiceDialog(self)
+            if dialog.exec() == QDialog.DialogCode.Accepted and dialog.selected_service:
+                selected = dialog.selected_service
                 row = self.services_table.rowCount()
                 self.services_table.insertRow(row)
-                self.services_table.setItem(row, 0, QTableWidgetItem(selected[1]))
-                self.services_table.setItem(row, 1, QTableWidgetItem(str(selected[2])))
-                logger.debug(f"Added service: {service}")
+                
+                # Создаем и стилизуем ячейки
+                name_item = QTableWidgetItem(selected[1])
+                name_item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+                name_item.setForeground(Qt.GlobalColor.black)  # Устанавливаем черный цвет текста
+                
+                cost_item = QTableWidgetItem(str(selected[2]))
+                cost_item.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+                cost_item.setForeground(Qt.GlobalColor.black)  # Устанавливаем черный цвет текста
+                
+                self.services_table.setItem(row, 0, name_item)
+                self.services_table.setItem(row, 1, cost_item)
+                
+                # Устанавливаем ширину столбцов
+                self.services_table.setColumnWidth(0, 300)
+                self.services_table.setColumnWidth(1, 100)
+                
+                logger.debug(f"Added service: {selected[1]}")
         except Exception as e:
             logger.error(f"Error adding service: {e}")
             QMessageBox.critical(self, "Ошибка", "Не удалось добавить услугу")
@@ -291,18 +407,27 @@ class OrderWindow(QDialog):
 
     def _generate_order(self):
         try:
+            # Проверяем, заполнен ли код пробирки
+            if not self.tube_code:
+                logger.warning("Tube code is not filled")
+                warning_dialog = WarningDialog("Ошибка", "Введите код пробирки!", self)
+                warning_dialog.exec()
+                return
+                
             # Получаем ID пациента из userData
             patient_data = self.patient_list.currentData()
             if not patient_data or 'id' not in patient_data:
                 logger.warning("No patient selected")
-                QMessageBox.warning(self, "Ошибка", "Выберите пациента!")
+                warning_dialog = WarningDialog("Ошибка", "Выберите пациента!", self)
+                warning_dialog.exec()
                 return
             
             patient_id = patient_data['id']  # Получаем именно ID пациента
             
             if self.services_table.rowCount() == 0:
                 logger.warning("No services added")
-                QMessageBox.warning(self, "Ошибка", "Добавьте хотя бы одну услугу!")
+                warning_dialog = WarningDialog("Ошибка", "Добавьте хотя бы одну услугу!", self)
+                warning_dialog.exec()
                 return
 
             raw_code = self.code_input.text().strip()
@@ -312,14 +437,16 @@ class OrderWindow(QDialog):
             with get_connection() as conn:
                 if not conn:
                     logger.error("Failed to connect to database to check code")
-                    QMessageBox.warning(self, "Предупреждение", 
-                                      "Не удалось проверить уникальность кода.\nПродолжаем без проверки.")
+                    warning_dialog = WarningDialog("Предупреждение", 
+                                                  "Не удалось проверить уникальность кода.\nПродолжаем без проверки.", self)
+                    warning_dialog.exec()
                 else:
                     cursor = conn.cursor()
                     cursor.execute("SELECT order_id FROM orders WHERE tube_code = %s AND is_archived = 0", (code,))
                     if cursor.fetchone():
                         logger.warning(f"Duplicate tube code: {code}")
-                        QMessageBox.warning(self, "Ошибка", "Код уже существует!")
+                        error_dialog = ErrorDialog("Ошибка", "Код уже существует!", self)
+                        error_dialog.exec()
                         return
             
             # Создаем директорию для штрих-кодов, если она не существует
@@ -371,9 +498,11 @@ class OrderWindow(QDialog):
                     
                     conn.commit()
                     logger.info(f"Order {order_id} created successfully with total cost: {total}")
-                
-                    QMessageBox.information(self, "Успех", 
-                                          f"Заказ {order_id} сформирован!\nОбщая стоимость: {total:.2f} руб.\nPDF: {pdf_path}")
+                    
+                    # Показываем диалог успеха
+                    success_message = f"Заказ {order_id} сформирован!\nОбщая стоимость: {total:.2f} руб.\nPDF: {pdf_path}"
+                    success_dialog = SuccessDialog("Успех", success_message, self)
+                    success_dialog.exec()
                     
                     # Очищаем форму после успешного создания заказа
                     self._clear_form()

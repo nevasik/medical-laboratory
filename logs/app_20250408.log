@@ -1629,3 +1629,223 @@
 2025-04-08 17:33:50,160 - medical_laboratory - DEBUG - Executing query to get max order_id
 2025-04-08 17:33:50,160 - medical_laboratory - DEBUG - Generated order number: 42
 2025-04-08 17:33:50,160 - medical_laboratory - DEBUG - Form cleared successfully
+2025-04-08 19:11:04,003 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:11:04,043 - medical_laboratory - DEBUG - Updated tube code placeholder: 339
+2025-04-08 19:11:04,058 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:11:04,058 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:11:04,065 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:11:04,066 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:11:04,066 - medical_laboratory - DEBUG - Generated order number: 50
+2025-04-08 19:11:04,067 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:11:04,067 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:11:18,044 - medical_laboratory - DEBUG - Found 0 patients for search term: f
+2025-04-08 19:11:19,272 - medical_laboratory - DEBUG - Found 8 patients for search term: а
+2025-04-08 19:11:20,333 - medical_laboratory - DEBUG - Found 6 patients for search term: ан
+2025-04-08 19:11:21,229 - medical_laboratory - DEBUG - Found 2 patients for search term: анд
+2025-04-08 19:11:25,313 - medical_laboratory - ERROR - Error loading services: list indices must be integers or slices, not str
+2025-04-08 19:11:36,411 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:11:36,427 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:11:36,438 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:11:36,439 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:11:36,439 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:11:58,039 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:11:58,057 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:11:58,066 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:11:58,067 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:11:58,068 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:12:01,474 - medical_laboratory - WARNING - No services added
+2025-04-08 19:12:03,158 - medical_laboratory - ERROR - Error loading services: list indices must be integers or slices, not str
+2025-04-08 19:20:01,549 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:20:01,562 - medical_laboratory - DEBUG - Updated tube code placeholder: 339
+2025-04-08 19:20:01,571 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:20:01,572 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:20:01,574 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:20:01,574 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:20:01,574 - medical_laboratory - DEBUG - Generated order number: 50
+2025-04-08 19:20:01,575 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:20:01,575 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:20:05,661 - medical_laboratory - DEBUG - Found 0 patients for search term: a
+2025-04-08 19:20:05,684 - medical_laboratory - DEBUG - Found 0 patients for search term: as
+2025-04-08 19:20:05,764 - medical_laboratory - DEBUG - Found 0 patients for search term: asd
+2025-04-08 19:20:06,814 - medical_laboratory - DEBUG - Found 0 patients for search term: as
+2025-04-08 19:20:06,963 - medical_laboratory - DEBUG - Found 0 patients for search term: a
+2025-04-08 19:20:07,990 - medical_laboratory - DEBUG - Found 8 patients for search term: а
+2025-04-08 19:20:08,306 - medical_laboratory - DEBUG - Found 0 patients for search term: ае
+2025-04-08 19:20:08,909 - medical_laboratory - DEBUG - Found 8 patients for search term: а
+2025-04-08 19:20:09,019 - medical_laboratory - DEBUG - Found 6 patients for search term: ан
+2025-04-08 19:20:16,016 - medical_laboratory - DEBUG - Found 2 patients for search term: анд
+2025-04-08 19:20:18,611 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:20:18,644 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:20:18,655 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:20:18,656 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:20:18,656 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:20:22,825 - medical_laboratory - WARNING - Not all fields are filled
+2025-04-08 19:20:27,306 - medical_laboratory - DEBUG - Added service: Билирубин общий
+2025-04-08 19:20:28,380 - medical_laboratory - WARNING - Tube code is not filled
+2025-04-08 19:20:33,111 - medical_laboratory - DEBUG - Processed tube code: 339
+2025-04-08 19:20:33,112 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:20:33,117 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:20:33,123 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:20:33,124 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:20:33,124 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:20:35,676 - medical_laboratory - DEBUG - Generated custom barcode: barcodes/barcode_339.png
+2025-04-08 19:20:35,711 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-04-08 19:20:35,711 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 5090
+2025-04-08 19:20:35,734 - medical_laboratory - DEBUG - Generated PDF: pdfs/order_50.pdf
+2025-04-08 19:20:35,742 - medical_laboratory - INFO - Order 50 created successfully with total cost: 102.85
+2025-04-08 19:20:37,387 - medical_laboratory - DEBUG - Updated tube code placeholder: 340
+2025-04-08 19:20:37,388 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:20:37,402 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:20:37,403 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:20:37,404 - medical_laboratory - DEBUG - Generated order number: 51
+2025-04-08 19:20:37,404 - medical_laboratory - DEBUG - Form cleared successfully
+2025-04-08 19:22:10,012 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:22:10,025 - medical_laboratory - DEBUG - Updated tube code placeholder: 340
+2025-04-08 19:22:10,035 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:22:10,035 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:22:10,038 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:22:10,038 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:22:10,039 - medical_laboratory - DEBUG - Generated order number: 51
+2025-04-08 19:22:10,039 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:22:10,040 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:22:11,768 - medical_laboratory - WARNING - Tube code is not filled
+2025-04-08 19:22:15,915 - medical_laboratory - WARNING - Tube code is not filled
+2025-04-08 19:24:59,089 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:24:59,102 - medical_laboratory - DEBUG - Updated tube code placeholder: 340
+2025-04-08 19:24:59,111 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:24:59,111 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:24:59,113 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:24:59,113 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:24:59,114 - medical_laboratory - DEBUG - Generated order number: 51
+2025-04-08 19:24:59,114 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:24:59,114 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:25:01,087 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:25:01,271 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:25:01,307 - medical_laboratory - DEBUG - Processed tube code: 340
+2025-04-08 19:25:02,651 - medical_laboratory - WARNING - No patient selected
+2025-04-08 19:25:06,392 - medical_laboratory - DEBUG - Found 0 patients for search term: f
+2025-04-08 19:25:06,602 - medical_laboratory - DEBUG - Found 0 patients for search term: fy
+2025-04-08 19:25:07,263 - medical_laboratory - DEBUG - Found 0 patients for search term: f
+2025-04-08 19:25:08,477 - medical_laboratory - DEBUG - Found 8 patients for search term: С
+2025-04-08 19:25:08,639 - medical_laboratory - DEBUG - Found 1 patients for search term: Ск
+2025-04-08 19:25:08,689 - medical_laboratory - DEBUG - Found 1 patients for search term: Ска
+2025-04-08 19:25:13,930 - medical_laboratory - DEBUG - Added service: Билирубин общий
+2025-04-08 19:25:17,186 - medical_laboratory - DEBUG - Added service: Креатинин
+2025-04-08 19:26:10,633 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:26:10,647 - medical_laboratory - DEBUG - Updated tube code placeholder: 340
+2025-04-08 19:26:10,655 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:26:10,655 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:26:10,675 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:26:10,675 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:26:10,676 - medical_laboratory - DEBUG - Generated order number: 51
+2025-04-08 19:26:10,677 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:26:10,677 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:26:14,067 - medical_laboratory - DEBUG - Added service: Билирубин общий
+2025-04-08 19:26:19,159 - medical_laboratory - DEBUG - Added service: Гепатит В
+2025-04-08 19:26:21,158 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:26:21,361 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:26:21,367 - medical_laboratory - DEBUG - Processed tube code: 340
+2025-04-08 19:26:23,473 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:26:23,495 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:26:23,504 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:26:23,505 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:26:23,506 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:26:25,415 - medical_laboratory - WARNING - Not all fields are filled
+2025-04-08 19:27:11,754 - medical_laboratory - INFO - Patient saved successfully: Седнев Алексей Александрович
+2025-04-08 19:27:21,311 - medical_laboratory - DEBUG - Found 1 patients for search term: Седнев Алексей Александрович
+2025-04-08 19:27:21,312 - medical_laboratory - DEBUG - Added new patient: Седнев Алексей Александрович
+2025-04-08 19:27:29,510 - medical_laboratory - DEBUG - Generated custom barcode: barcodes/barcode_340.png
+2025-04-08 19:27:29,540 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-04-08 19:27:29,540 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 4971
+2025-04-08 19:27:29,560 - medical_laboratory - DEBUG - Generated PDF: pdfs/order_51.pdf
+2025-04-08 19:27:29,625 - medical_laboratory - INFO - Order 51 created successfully with total cost: 279.68
+2025-04-08 19:27:32,232 - medical_laboratory - DEBUG - Updated tube code placeholder: 341
+2025-04-08 19:27:32,234 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:27:32,258 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:27:32,258 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:27:32,259 - medical_laboratory - DEBUG - Generated order number: 52
+2025-04-08 19:27:32,260 - medical_laboratory - DEBUG - Form cleared successfully
+2025-04-08 19:28:02,990 - medical_laboratory - WARNING - Tube code is not filled
+2025-04-08 19:28:05,240 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:28:05,578 - medical_laboratory - WARNING - Duplicate tube code: 31
+2025-04-08 19:28:09,115 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:28:09,181 - medical_laboratory - WARNING - Duplicate tube code: 31
+2025-04-08 19:28:13,085 - medical_laboratory - DEBUG - Processed tube code: 2
+2025-04-08 19:28:13,193 - medical_laboratory - WARNING - Duplicate tube code: 21
+2025-04-08 19:28:15,718 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:28:15,910 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:28:16,083 - medical_laboratory - WARNING - Duplicate tube code: 340
+2025-04-08 19:29:43,448 - medical_laboratory - INFO - Initializing OrderWindow
+2025-04-08 19:29:43,462 - medical_laboratory - DEBUG - Updated tube code placeholder: 341
+2025-04-08 19:29:43,472 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:29:43,472 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:29:43,491 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:29:43,492 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:29:43,493 - medical_laboratory - DEBUG - Generated order number: 52
+2025-04-08 19:29:43,494 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:29:43,494 - medical_laboratory - INFO - OrderWindow initialized successfully
+2025-04-08 19:29:45,284 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:29:45,423 - medical_laboratory - WARNING - Duplicate tube code: 32
+2025-04-08 19:29:52,352 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:29:52,615 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:29:52,697 - medical_laboratory - WARNING - Duplicate tube code: 340
+2025-04-08 19:29:55,541 - medical_laboratory - DEBUG - Processed tube code: 4
+2025-04-08 19:29:56,608 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:29:57,691 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:29:59,549 - medical_laboratory - DEBUG - Processed tube code: 341
+2025-04-08 19:30:01,729 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:30:02,576 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:30:02,841 - medical_laboratory - WARNING - Duplicate tube code: 33
+2025-04-08 19:30:05,374 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:30:05,496 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:30:07,823 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:30:09,747 - medical_laboratory - DEBUG - Processed tube code: 1
+2025-04-08 19:30:11,078 - medical_laboratory - WARNING - Duplicate tube code: 12
+2025-04-08 19:30:14,611 - medical_laboratory - DEBUG - Processed tube code: 2
+2025-04-08 19:30:16,712 - medical_laboratory - WARNING - Duplicate tube code: 29
+2025-04-08 19:30:21,744 - medical_laboratory - DEBUG - Processed tube code: 3
+2025-04-08 19:30:21,948 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:30:24,134 - medical_laboratory - DEBUG - Processed tube code: 344
+2025-04-08 19:30:24,772 - medical_laboratory - DEBUG - Processed tube code: 34
+2025-04-08 19:30:24,907 - medical_laboratory - DEBUG - Processed tube code: 341
+2025-04-08 19:30:30,933 - medical_laboratory - DEBUG - Found 9 patients for search term: с
+2025-04-08 19:30:31,075 - medical_laboratory - DEBUG - Found 0 patients for search term: св
+2025-04-08 19:30:31,834 - medical_laboratory - DEBUG - Found 9 patients for search term: с
+2025-04-08 19:30:40,282 - medical_laboratory - WARNING - No patient selected
+2025-04-08 19:30:43,515 - medical_laboratory - DEBUG - Found 9 patients for search term: с
+2025-04-08 19:30:43,627 - medical_laboratory - DEBUG - Found 0 patients for search term: св
+2025-04-08 19:30:44,495 - medical_laboratory - DEBUG - Found 9 patients for search term: с
+2025-04-08 19:30:45,884 - medical_laboratory - DEBUG - Found 9 patients for search term: а
+2025-04-08 19:30:46,088 - medical_laboratory - DEBUG - Found 1 patients for search term: ад
+2025-04-08 19:30:46,122 - medical_laboratory - DEBUG - Found 0 patients for search term: адн
+2025-04-08 19:30:46,331 - medical_laboratory - DEBUG - Found 0 patients for search term: аднр
+2025-04-08 19:30:46,453 - medical_laboratory - DEBUG - Found 0 patients for search term: аднрн
+2025-04-08 19:30:46,829 - medical_laboratory - DEBUG - Found 0 patients for search term: аднр
+2025-04-08 19:30:47,108 - medical_laboratory - DEBUG - Found 0 patients for search term: адн
+2025-04-08 19:30:47,255 - medical_laboratory - DEBUG - Found 1 patients for search term: ад
+2025-04-08 19:30:47,698 - medical_laboratory - DEBUG - Found 9 patients for search term: а
+2025-04-08 19:30:47,962 - medical_laboratory - DEBUG - Found 7 patients for search term: ан
+2025-04-08 19:30:48,057 - medical_laboratory - DEBUG - Found 3 patients for search term: анд
+2025-04-08 19:30:48,266 - medical_laboratory - DEBUG - Found 3 patients for search term: андр
+2025-04-08 19:30:48,332 - medical_laboratory - DEBUG - Found 1 patients for search term: андре
+2025-04-08 19:30:52,750 - medical_laboratory - WARNING - No services added
+2025-04-08 19:30:58,579 - medical_laboratory - DEBUG - Added service: АТ и АГ к ВИЧ 1/2
+2025-04-08 19:30:59,924 - medical_laboratory - DEBUG - Generated custom barcode: barcodes/barcode_341.png
+2025-04-08 19:30:59,950 - PIL.PngImagePlugin - DEBUG - STREAM b'IHDR' 16 13
+2025-04-08 19:30:59,951 - PIL.PngImagePlugin - DEBUG - STREAM b'IDAT' 41 4859
+2025-04-08 19:30:59,972 - medical_laboratory - DEBUG - Generated PDF: pdfs/order_52.pdf
+2025-04-08 19:30:59,982 - medical_laboratory - INFO - Order 52 created successfully with total cost: 370.62
+2025-04-08 19:31:01,905 - medical_laboratory - DEBUG - Updated tube code placeholder: 342
+2025-04-08 19:31:01,907 - medical_laboratory - DEBUG - Attempting to connect to database to generate order number
+2025-04-08 19:31:01,911 - medical_laboratory - DEBUG - Successfully connected to database
+2025-04-08 19:31:01,911 - medical_laboratory - DEBUG - Executing query to get max order_id
+2025-04-08 19:31:01,912 - medical_laboratory - DEBUG - Generated order number: 53
+2025-04-08 19:31:01,913 - medical_laboratory - DEBUG - Form cleared successfully
+2025-04-08 19:31:04,570 - medical_laboratory - INFO - Initializing PatientDialog
+2025-04-08 19:31:04,576 - medical_laboratory - DEBUG - Loaded 2 insurance companies
+2025-04-08 19:31:04,587 - medical_laboratory - DEBUG - UI initialized successfully
+2025-04-08 19:31:04,587 - medical_laboratory - DEBUG - Signals connected successfully
+2025-04-08 19:31:04,588 - medical_laboratory - INFO - PatientDialog initialized successfully
+2025-04-08 19:31:07,297 - medical_laboratory - WARNING - Not all fields are filled
+2025-04-08 19:31:09,842 - medical_laboratory - WARNING - Not all fields are filled
+2025-04-08 19:31:15,591 - medical_laboratory - ERROR - Error saving patient: (1292, "Incorrect date value: 'в' for column 'birthdate' at row 1")

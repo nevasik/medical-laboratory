@@ -1,4 +1,4 @@
-import mysql.connector
+import pymysql
 from config import Config
 from logger import logger
 
@@ -8,10 +8,10 @@ class DatabaseConnection:
 
     def __enter__(self):
         try:
-            self.connection = mysql.connector.connect(**Config.DB_CONFIG)
+            self.connection = pymysql.connect(**Config.DB_CONFIG)
             logger.debug("Successfully connected to the database")
             return self.connection
-        except mysql.connector.Error as err:
+        except pymysql.Error as err:
             logger.error(f"Error connecting to the database: {err}")
             return None
 
@@ -20,4 +20,4 @@ class DatabaseConnection:
             self.connection.close()
 
 def get_connection():
-    return mysql.connector.connect(**Config.DB_CONFIG)
+    return pymysql.connect(**Config.DB_CONFIG)

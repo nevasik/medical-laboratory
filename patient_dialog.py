@@ -1,11 +1,16 @@
-from database.db import get_connection 
 from PyQt6.QtWidgets import (
-    QDialog, QVBoxLayout, QLabel, QLineEdit, 
-    QPushButton, QComboBox, QMessageBox, QHBoxLayout
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, 
+    QPushButton, QComboBox
 )
+from PyQt6.QtCore import Qt
+from database.connection import get_connection
+from database.db import get_insurance_companies, get_insurance_types
 from logger import logger
 import hashlib
-import re
+import random
+import string
+from styles import *  # Импортируем все стили
+from dialogs import WarningDialog, SuccessDialog, ErrorDialog  # Импортируем диалоги
 
 class PatientDialog(QDialog):
     def __init__(self):
@@ -14,6 +19,10 @@ class PatientDialog(QDialog):
             logger.info("Initializing PatientDialog")
             self.setWindowTitle("Добавление пациента")
             self.setGeometry(100, 100, 400, 400)
+            
+            # Применяем стиль к окну
+            self.setStyleSheet(MAIN_WINDOW_STYLE)
+            
             self._init_ui()
             self._connect_signals()
             logger.info("PatientDialog initialized successfully")
@@ -25,16 +34,34 @@ class PatientDialog(QDialog):
         try:
             layout = QVBoxLayout()
             
+            # Создаем и стилизуем поля ввода
             self.full_name = QLineEdit(placeholderText="ФИО")
+            self.full_name.setStyleSheet(INPUT_STYLE)
+            
             self.birthdate = QLineEdit(placeholderText="Дата рождения (ГГГГ-ММ-ДД)")
+            self.birthdate.setStyleSheet(INPUT_STYLE)
+            
             self.passport_series = QLineEdit(placeholderText="Серия паспорта")
+            self.passport_series.setStyleSheet(INPUT_STYLE)
+            
             self.passport_number = QLineEdit(placeholderText="Номер паспорта")
+            self.passport_number.setStyleSheet(INPUT_STYLE)
+            
             self.phone = QLineEdit(placeholderText="Телефон")
+            self.phone.setStyleSheet(INPUT_STYLE)
+            
             self.email = QLineEdit(placeholderText="Email")
+            self.email.setStyleSheet(INPUT_STYLE)
+            
             self.insurance_policy = QLineEdit(placeholderText="Номер полиса")
+            self.insurance_policy.setStyleSheet(INPUT_STYLE)
+            
             self.insurance_type = QComboBox()
+            self.insurance_type.setStyleSheet(COMBOBOX_STYLE)
             self.insurance_type.addItems(["ОМС", "ДМС"])
+            
             self.insurance_company = QComboBox()
+            self.insurance_company.setStyleSheet(COMBOBOX_STYLE)
             
             # Заполнение страховых компаний
             with get_connection() as conn:
@@ -44,24 +71,46 @@ class PatientDialog(QDialog):
                 self.insurance_company.addItems([c[1] for c in companies])
                 logger.debug(f"Loaded {len(companies)} insurance companies")
             
-            layout.addWidget(QLabel("ФИО:"))
+            # Создаем и стилизуем метки
+            full_name_label = QLabel("ФИО:")
+            full_name_label.setStyleSheet(LABEL_STYLE)
+            
+            birthdate_label = QLabel("Дата рождения:")
+            birthdate_label.setStyleSheet(LABEL_STYLE)
+            
+            passport_label = QLabel("Паспорт:")
+            passport_label.setStyleSheet(LABEL_STYLE)
+            
+            contacts_label = QLabel("Контакты:")
+            contacts_label.setStyleSheet(LABEL_STYLE)
+            
+            insurance_label = QLabel("Страховой полис:")
+            insurance_label.setStyleSheet(LABEL_STYLE)
+            
+            # Добавляем виджеты в layout
+            layout.addWidget(full_name_label)
             layout.addWidget(self.full_name)
-            layout.addWidget(QLabel("Дата рождения:"))
+            layout.addWidget(birthdate_label)
             layout.addWidget(self.birthdate)
-            layout.addWidget(QLabel("Паспорт:"))
+            layout.addWidget(passport_label)
             layout.addWidget(self.passport_series)
             layout.addWidget(self.passport_number)
-            layout.addWidget(QLabel("Контакты:"))
+            layout.addWidget(contacts_label)
             layout.addWidget(self.phone)
             layout.addWidget(self.email)
-            layout.addWidget(QLabel("Страховой полис:"))
+            layout.addWidget(insurance_label)
             layout.addWidget(self.insurance_policy)
             layout.addWidget(self.insurance_type)
             layout.addWidget(self.insurance_company)
             
+            # Создаем и стилизуем кнопки
             btn_layout = QHBoxLayout()
             self.save_btn = QPushButton("Сохранить")
+            self.save_btn.setStyleSheet(PRIMARY_BUTTON_STYLE)
+            
             self.cancel_btn = QPushButton("Отмена")
+            self.cancel_btn.setStyleSheet(BUTTON_STYLE)
+            
             btn_layout.addWidget(self.save_btn)
             btn_layout.addWidget(self.cancel_btn)
             layout.addLayout(btn_layout)
@@ -121,15 +170,12 @@ class PatientDialog(QDialog):
             base = f"{surname.capitalize()}{initials}"
         
         # Добавляем случайное число для уникальности
-        import random
         name = f"{base}{random.randint(10, 99)}"
         
         return name
 
     def _generate_password(self):
         # Генерируем случайный пароль из 8 символов
-        import random
-        import string
         chars = string.ascii_letters + string.digits
         return ''.join(random.choice(chars) for _ in range(8))
 
@@ -150,7 +196,8 @@ class PatientDialog(QDialog):
             # Валидация
             if not all(data.values()):
                 logger.warning("Not all fields are filled")
-                QMessageBox.warning(self, "Ошибка", "Заполните все поля!")
+                warning_dialog = WarningDialog("Ошибка", "Заполните все поля!", self)
+                warning_dialog.exec()
                 return
             
             # Генерируем логин и пароль
@@ -189,11 +236,13 @@ class PatientDialog(QDialog):
             self.patient_data = data
             
             # Показываем сообщение с логином и паролем
-            QMessageBox.information(self, "Успех", 
+            success_dialog = SuccessDialog("Успех", 
                 f"Пациент успешно добавлен!\n\nЛогин: {login}\nПароль: {password}\n\n"
-                "Сохраните эти данные для входа в систему.")
+                "Сохраните эти данные для входа в систему.", self)
+            success_dialog.exec()
             
             self.accept()
         except Exception as e:
             logger.error(f"Error saving patient: {e}")
-            QMessageBox.critical(self, "Ошибка", "Не удалось сохранить данные пациента")
+            error_dialog = ErrorDialog("Ошибка", "Не удалось сохранить данные пациента", self)
+            error_dialog.exec()
