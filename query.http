@@ -1,0 +1,20 @@
+### Post заполнение базы:Отправка биомаериала
+POST http://localhost:8080/api/analyzer/{"name_bomaterial"}
+Content-Type: application/json
+{
+   "patient": {number_patient},
+   "services": [619, 501]
+}
+
+### Geg получение базы: Пациентов
+GET http://localhost:8080/api/analyzers
+
+
+### GET /api/analyzer/{name} - Получение статуса
+GET http://localhost/api/analyzer/{name}
+
+
+### PUT Потверждение результата
+PUT http://localhost:8080/api/results/45
+Content-Type: application/json
+{"approved": true}
