@@ -2,9 +2,9 @@ import sys
 
 from PyQt6.QtWidgets import (QApplication)
 
-from config import get_config
-from db import get_connection_db, seed_basic_data, seed_quality_data
-from main_window import MainWindow
+from core.config.config import get_config
+from core.database.db import get_connection_db, seed_basic_data, seed_quality_data
+from GUI.qt.main_window  import MainWindow
 
 
 def main():
