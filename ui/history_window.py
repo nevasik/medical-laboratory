@@ -82,6 +82,6 @@ class HistoryWindow(QWidget):
                 QMessageBox.StandardButton.Ok
             )
         finally:
-            if conn and conn.is_connected():
+            if conn and conn.open:
                 cursor.close()
                 conn.close()

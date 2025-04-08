@@ -1,5 +1,5 @@
-import mysql.connector
+import pymysql
 from config import Config
 
 def get_connection():
-    return mysql.connector.connect(**Config.DB_CONFIG)
+    return pymysql.connect(**Config.DB_CONFIG)

@@ -1,4 +1,4 @@
-import mysql.connector
+import pymysql
 from database import connection, queries
 from utils.logger import log_error
 
@@ -20,11 +20,11 @@ class AuthService:
 
             return admin or lab or accountant
 
-        except mysql.connector.Error as err:
+        except pymysql.Error as err:
             log_error(f"Database error: {err}")
             return None
         finally:
-            if conn.is_connected():
+            if conn.open:
                 cursor.close()
                 conn.close()
 
@@ -35,9 +35,9 @@ class AuthService:
             cursor = conn.cursor()
             cursor.execute(queries.QUERIES['log_login'], (login, success, role))
             conn.commit()
-        except mysql.connector.Error as err:
+        except pymysql.Error as err:
             log_error(f"Login history error: {err}")
         finally:
-            if conn.is_connected():
+            if conn.open:
                 cursor.close()
                 conn.close()
