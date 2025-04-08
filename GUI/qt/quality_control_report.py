@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import (QVBoxLayout, QHBoxLayout,
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-from service_report_widget import ServiceReportWidget
+from GUI.qt.service_report_widget import ServiceReportWidget
 
 
 class QualityControlReport(QDialog):

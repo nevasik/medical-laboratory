@@ -2,8 +2,8 @@ from PyQt6.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
                              QPushButton, QLabel, QHBoxLayout)
 from PyQt6.QtCore import Qt
 
-from quality_control_report import QualityControlReport
-from service_report_widget import ServiceReportWidget
+from GUI.qt.quality_control_report import QualityControlReport
+from GUI.qt.service_report_widget import ServiceReportWidget
 
 
 class MainWindow(QMainWindow):
