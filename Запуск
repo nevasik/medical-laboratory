@@ -1,0 +1,6 @@
+pip install fastapi uvicorn pydantic PyQt6 requests
+
+
+uvicorn analyzer_emulator:app --port 5000
+
+
