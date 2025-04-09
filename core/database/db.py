@@ -4,7 +4,7 @@ import random
 from datetime import datetime, timedelta
 
 SQL_CREATE_DB = """
-CREATE DATABASE IF NOT EXISTS my_apteka_db CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS session4 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 """
 
 SQL_USE_DB = """

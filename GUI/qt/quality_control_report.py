@@ -8,19 +8,20 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from GUI.qt.service_report_widget import ServiceReportWidget
+from utils.style import MAIN_WINDOW_STYLE, BUTTON_STYLE, COMBOBOX_STYLE, LABEL_STYLE, LABEL_STYLE2
 
 
 class QualityControlReport(QDialog):
     def __init__(self, connection):
         super().__init__()
         self.connection = connection
+        self.setStyleSheet(MAIN_WINDOW_STYLE)
         self.setWindowTitle("Контроль качества")
         self.setGeometry(200, 200, 1200, 800)
         self.initUI()
 
     def initUI(self):
         layout = QVBoxLayout()
-
         control_layout = QHBoxLayout()
 
         self.date_from = QDateEdit(calendarPopup=True)
@@ -29,22 +30,31 @@ class QualityControlReport(QDialog):
         self.date_to.setDateTime(QDateTime.currentDateTime())
 
         self.equipment_combo = QComboBox()
+        self.equipment_combo.setStyleSheet(COMBOBOX_STYLE)
+
         self.load_equipment()
 
         self.btn_generate = QPushButton("Сформировать отчёт")
         self.btn_generate.clicked.connect(self.generate_report)
+        self.btn_generate.setStyleSheet(BUTTON_STYLE)
 
-        # btn_service = QPushButton("Отчёт по услугам")
-        # btn_service.clicked.connect(self.show_service_report)
+        label_oborudv = QLabel("Оборудование:")
+        label_oborudv.setStyleSheet(LABEL_STYLE2)
 
-        control_layout.addWidget(QLabel("Оборудование:"))
+        control_layout.addWidget(label_oborudv)
         control_layout.addWidget(self.equipment_combo)
-        control_layout.addWidget(QLabel("С:"))
+
+        label_date_from = QLabel("С:")
+        label_date_from.setStyleSheet(LABEL_STYLE2)
+        control_layout.addWidget(label_date_from)
         control_layout.addWidget(self.date_from)
-        control_layout.addWidget(QLabel("По:"))
+
+        label_date_to = QLabel("По:")
+        label_date_to.setStyleSheet(LABEL_STYLE2)
+        control_layout.addWidget(label_date_to)
         control_layout.addWidget(self.date_to)
+
         control_layout.addWidget(self.btn_generate)
-        # layout.addWidget(btn_service)
 
         self.figure = Figure()
         self.canvas = FigureCanvas(self.figure)

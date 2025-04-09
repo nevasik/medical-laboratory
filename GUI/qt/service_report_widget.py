@@ -1,15 +1,17 @@
+import tempfile
+
+import numpy as np
+from PyQt6.QtCore import QDate
 from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QDateEdit, QComboBox, QTableWidget, QTableWidgetItem,
                              QFileDialog, QMessageBox, QLabel)
-from PyQt6.QtCore import QDate
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import Table, TableStyle, Image
-from reportlab.lib import colors
-import numpy as np
-import tempfile
+from reportlab.pdfgen import canvas
+from reportlab.platypus import Table
+
+from utils.style import TABLE_STYLE, BUTTON_STYLE
 
 
 class ServiceReportWidget(QWidget):
@@ -36,9 +38,11 @@ class ServiceReportWidget(QWidget):
 
         self.btn_generate = QPushButton("Сформировать")
         self.btn_generate.clicked.connect(self.generate_report)
+        self.btn_generate.setStyleSheet(BUTTON_STYLE)
 
         self.btn_export = QPushButton("Экспорт в PDF")
         self.btn_export.clicked.connect(self.export_to_pdf)
+        self.btn_export.setStyleSheet(BUTTON_STYLE)
 
         control_layout.addWidget(QLabel("С:"))
         control_layout.addWidget(self.start_date)
@@ -204,15 +208,7 @@ class ServiceReportWidget(QWidget):
 
             # Создаем таблицу
             t = Table(table_data)
-            t.setStyle(TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black)
-            ]))
+
 
             # Рассчитываем размеры
             available_width = width - 100
