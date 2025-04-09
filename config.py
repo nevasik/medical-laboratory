@@ -4,8 +4,8 @@ class Config:
     DB_CONFIG = {
         'host': 'localhost',
         'user': 'root',
-        'password': '59723833',
-        'database': 'medical_laboratory'
+        'password': 'root',
+        'database': 'session1'
     }
     CAPTCHA_LENGTH = 4
     BLOCK_TIME_SEC = 10
