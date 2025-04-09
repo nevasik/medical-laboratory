@@ -28,9 +28,6 @@ def main():
         if conn:
             conn.close()
         exit(1)
-    finally:
-        if conn is not None:
-            conn.close()
 
 
 if __name__ == "__main__":
