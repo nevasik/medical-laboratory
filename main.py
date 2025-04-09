@@ -1,3 +1,4 @@
+import os
 import sys
 import requests
 from PyQt6.QtWidgets import (
@@ -5,6 +6,8 @@ from PyQt6.QtWidgets import (
     QPushButton, QListWidget, QProgressBar, QMessageBox
 )
 from PyQt6.QtCore import QTimer, Qt, QThread, pyqtSignal
+
+from report.generate_pdf_report import generate_pdf_report
 
 API_URL = "http://localhost:5000/api/analyzer"
 
@@ -90,10 +93,19 @@ class AnalyzerClient(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Ошибка", str(e))
 
+    # В методе show_result (client)
+
     def show_result(self, services):
-        result = services[0]["result"]
-        self.result_label.setText(f"Результат: {result}")
-        self.approve_button.setEnabled(True)
+        try:
+            generate_pdf_report(
+                PATIENT_ID,
+                services,
+                save_path=os.path.abspath("reports")  # Используем абсолютный путь
+            )
+        except Exception as e:
+            QMessageBox.critical(self, "Ошибка", f"Ошибка генерации: {str(e)}")
+
+
 
     def approve_result(self):
         QMessageBox.information(self, "Успех", "Результат одобрен!")
