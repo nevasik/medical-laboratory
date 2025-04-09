@@ -1,4 +1,3 @@
-# report/generate_pdf_report.py
 from fpdf import FPDF
 import datetime
 import os
@@ -8,30 +7,20 @@ from constants import SERVICES
 class PDF(FPDF):
     def __init__(self):
         super().__init__()
-        try:
-            # Получаем абсолютный путь до шрифтов
-            font_dir = os.path.join(os.path.dirname(__file__), 'fonts')
-            arial_path = os.path.join(font_dir, 'arial.ttf')
-            arialbd_path = os.path.join(font_dir, 'arialbd.ttf')
+        font_dir = os.path.join(os.path.dirname(__file__), 'fonts')
+        self.add_font('Arial', '', os.path.join(font_dir, 'arial.ttf'), uni=True)
+        self.add_font('Arial', 'B', os.path.join(font_dir, 'arialbd.ttf'), uni=True)
+        self.set_font('Arial', size=12)
 
-            if not os.path.exists(arial_path):
-                raise FileNotFoundError(f"Font file not found: {arial_path}")
-
-            self.add_font('Arial', '', arial_path, uni=True)
-            self.add_font('Arial', 'B', arialbd_path, uni=True)
-            self.set_font('Arial', size=12)
-        except Exception as e:
-            print(f"❌ Ошибка загрузки шрифтов: {str(e)}")
-            raise
 
 def generate_pdf_report(patient_id, services, save_path=""):
     try:
         # Создаем директорию для отчетов
-        os.makedirs(save_path, exist_ok=True) if save_path else None
+        if save_path:
+            os.makedirs(save_path, exist_ok=True)
 
         pdf = PDF()
         pdf.add_page()
-        pdf.set_auto_page_break(auto=True, margin=15)
 
         # Заголовок
         pdf.set_font('Arial', 'B', 16)
@@ -39,40 +28,75 @@ def generate_pdf_report(patient_id, services, save_path=""):
         pdf.ln(10)
 
         # Информация о пациенте
+        patient_id_str = str(patient_id)
         pdf.set_font('Arial', '', 12)
-        pdf.cell(0, 10, f'Пациент: {patient_id}', 0, 1)
+        pdf.cell(0, 10, f'Пациент: {patient_id_str}', 0, 1)
         pdf.cell(0, 10, f'Дата: {datetime.datetime.now().strftime("%d.%m.%Y %H:%M")}', 0, 1)
         pdf.ln(10)
 
-        # Таблица с результатами
+        # Таблица
         pdf.set_fill_color(200, 220, 255)
-        pdf.cell(120, 10, 'Исследование', 1, 0, 'C', fill=True)
-        pdf.cell(40, 10, 'Результат', 1, 0, 'C', fill=True)
-        pdf.cell(30, 10, 'Стоимость', 1, 1, 'C', fill=True)
+        col_widths = [120, 40, 30]
+        headers = ['Исследование', 'Результат', 'Стоимость']
 
+        # Заголовки таблицы
+        pdf.set_font('Arial', 'B', 12)
+        for width, header in zip(col_widths, headers):
+            pdf.cell(width, 10, header, 1, 0, 'C', fill=True)
+        pdf.ln()
+
+        # Данные таблицы
+        pdf.set_font('Arial', '', 12)
         total = 0
         for service in services:
-            code = service['code']
-            name = next((s['name'] for s in SERVICES if s['code'] == code), f'Услуга {code}')
-            result = str(service['result'])
-            cost = 262.71
+            # Обработка кода услуги
+            try:
+                code = int(str(service.get('code', 0)).__trunc__()
+            except:
+                code = 0
+
+            # Обработка результата
+            result = f"{service.get('result', 'N/A')}"
+
+            # Поиск названия услуги
+            name = f'Услуга {code}'
+            for s in SERVICES:
+                try:
+                    if int(s['code']) == code:
+                        name = str(s['name'])
+                        break
+                except:
+                    continue
+
+            # Стоимость
+            try:
+                cost = float(262.71)
+            except:
+                cost = 0.0
             total += cost
 
-            pdf.cell(120, 10, f'{name} ({code})', 1)
-            pdf.cell(40, 10, result, 1)
-            pdf.cell(30, 10, f'{cost:.2f} ₽', 1, 1)
+            # Формирование строки
+            row_data = [
+                f'{name} ({code})',
+                f'{result}',
+                f'{cost:.2f} ₽'
+            ]
 
-        # Итоговая сумма
-        pdf.ln(10)
+            # Добавление строки в таблицу
+            for width, text in zip(col_widths, row_data):
+                pdf.cell(width, 10, text, 1)
+            pdf.ln()
+
+        # Итог
         pdf.set_font('Arial', 'B', 14)
         pdf.cell(0, 10, f'Итого к оплате: {total:.2f} ₽', 0, 1, 'R')
 
         # Сохранение файла
-        filename = f'report_{patient_id}.pdf'
+        filename = f'report_{patient_id_str}.pdf'
         full_path = os.path.join(save_path, filename) if save_path else filename
         pdf.output(full_path)
         print(f'✅ Отчет сохранен: {full_path}')
 
     except Exception as e:
-        print(f'❌ Ошибка генерации: {str(e)}')
+        print(f'❌ Ошибка генерации: {type(e).__name__}: {str(e)}')
         raise
