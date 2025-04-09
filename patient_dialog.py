@@ -190,7 +190,7 @@ class PatientDialog(QDialog):
                 'email': self.email.text(),
                 'insurance_policy': self.insurance_policy.text(),
                 'insurance_type': self.insurance_type.currentText(),
-                'insurance_company': self.insurance_company.currentText()
+                'insurance_company': 'test'
             }
             
             # Валидация
