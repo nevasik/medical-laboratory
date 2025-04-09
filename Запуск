@@ -1,6 +1,4 @@
-pip install fastapi uvicorn pydantic PyQt6 requests
+./.venv/bin/uvicorn analyzer_emulator:app --port 5000
 
-
-uvicorn analyzer_emulator:app --port 5000
-
-
+    тесты:
+    pytest test_analyzer_emulator.py
