@@ -3,4 +3,4 @@ mysql:
   port: 3306
   user: root
   password: root
-  database: free_project
+  database: my_apteka_db
